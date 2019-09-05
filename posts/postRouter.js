@@ -1,27 +1,16 @@
-const express = 'express';
-
-const router = express.Router();
-
-router.get('/', (req, res) => {
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var router = express_1.Router();
+router.get('/', function (req, res) {
 });
-
-router.get('/:id', (req, res) => {
-
+router.get('/:id', function (req, res) {
 });
-
-router.delete('/:id', (req, res) => {
-
+router.delete('/:id', function (req, res) {
 });
-
-router.put('/:id', (req, res) => {
-
+router.put('/:id', function (req, res) {
 });
-
 // custom middleware
-
-function validatePostId(req, res, next) {
-
+var validatePostId = function (req, res, next) {
 };
-
-module.exports = router;
+exports.default = router;

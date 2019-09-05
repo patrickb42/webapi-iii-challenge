@@ -1,47 +1,26 @@
-const express = 'express';
-
-const router = express.Router();
-
-router.post('/', (req, res) => {
-
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var router = express_1.Router();
+router.post('/', function (req, res) {
 });
-
-router.post('/:id/posts', (req, res) => {
-
+router.post('/:id/posts', function (req, res) {
 });
-
-router.get('/', (req, res) => {
-
+router.get('/', function (req, res) {
 });
-
-router.get('/:id', (req, res) => {
-
+router.get('/:id', function (req, res) {
 });
-
-router.get('/:id/posts', (req, res) => {
-
+router.get('/:id/posts', function (req, res) {
 });
-
-router.delete('/:id', (req, res) => {
-
+router.delete('/:id', function (req, res) {
 });
-
-router.put('/:id', (req, res) => {
-
+router.put('/:id', function (req, res) {
 });
-
 //custom middleware
-
-function validateUserId(req, res, next) {
-
+var validateUserId = function (req, res, next) {
 };
-
-function validateUser(req, res, next) {
-
+var validateUser = function (req, res, next) {
 };
-
-function validatePost(req, res, next) {
-
+var validatePost = function (req, res, next) {
 };
-
-module.exports = router;
+exports.default = router;
