@@ -1,5 +1,19 @@
 import * as express from 'express';
 
+import { postRouter } from './posts';
+import { userRouter } from './users';
+
 const server = express();
 
-server.listen(5000, () => console.log('listening on port 5000'));
+const logger = (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  const date = new Date(Date.now());
+  console.log(`${req.method} ${req.url} ${date.toISOString()}`);
+  next();
+};
+
+server.use(express.json());
+server.use(logger);
+server.use('/users', userRouter);
+server.use('/posts', postRouter);
+
+server.listen(6000, () => console.log('listening on port 6000'));

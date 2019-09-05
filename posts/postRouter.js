@@ -1,16 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var express_1 = require("express");
-var router = express_1.Router();
-router.get('/', function (req, res) {
-});
-router.get('/:id', function (req, res) {
-});
-router.delete('/:id', function (req, res) {
-});
-router.put('/:id', function (req, res) {
-});
+var express = require("express");
+exports.router = express.Router();
 // custom middleware
 var validatePostId = function (req, res, next) {
 };
-exports.default = router;
+exports.router.get('/', validatePostId, function (req, res) {
+});
+exports.router.get('/:id', function (req, res) {
+});
+exports.router.delete('/:id', function (req, res) {
+});
+exports.router.put('/:id', function (req, res) {
+});
+exports.default = exports.router;

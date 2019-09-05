@@ -1,8 +1,18 @@
-import { Router } from 'express';
+import * as express from 'express';
 
-const router = Router();
+export const router = express.Router();
 
-router.get('/', (req, res) => {
+// custom middleware
+
+const validatePostId = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+
+};
+
+router.get('/', validatePostId, (req, res) => {
 
 });
 
@@ -17,11 +27,5 @@ router.delete('/:id', (req, res) => {
 router.put('/:id', (req, res) => {
 
 });
-
-// custom middleware
-
-const validatePostId = (req, res, next) => {
-
-};
 
 export default router;
