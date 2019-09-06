@@ -13,9 +13,7 @@ function getById(id) {
 function insert(post) {
   return db('posts')
     .insert(post)
-    .then(ids => {
-      return getById(ids[0]);
-    });
+    .then(ids => getById(ids[0]));
 }
 
 function update(id, changes) {

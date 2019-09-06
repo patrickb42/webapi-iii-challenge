@@ -21,9 +21,7 @@ exports.getUserPosts = getUserPosts;
 function insert(user) {
     return db('users')
         .insert(user)
-        .then(function (ids) {
-        return getById(ids[0]);
-    });
+        .then(function (ids) { return getById(ids[0]); });
 }
 exports.insert = insert;
 function update(id, changes) {

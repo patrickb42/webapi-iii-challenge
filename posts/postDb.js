@@ -14,9 +14,7 @@ exports.getById = getById;
 function insert(post) {
     return db('posts')
         .insert(post)
-        .then(function (ids) {
-        return getById(ids[0]);
-    });
+        .then(function (ids) { return getById(ids[0]); });
 }
 exports.insert = insert;
 function update(id, changes) {

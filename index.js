@@ -13,4 +13,4 @@ server.use(express.json());
 server.use(logger);
 server.use('/users', users_1.userRouter);
 server.use('/posts', posts_1.postRouter);
-server.listen(6000, function () { return console.log('listening on port 6000'); });
+server.listen(5000, function () { return console.log('listening on port 5000'); });

@@ -16,4 +16,4 @@ server.use(logger);
 server.use('/users', userRouter);
 server.use('/posts', postRouter);
 
-server.listen(6000, () => console.log('listening on port 6000'));
+server.listen(5000, () => console.log('listening on port 5000'));
