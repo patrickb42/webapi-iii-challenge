@@ -99,7 +99,7 @@ router.post('/:id/posts', validateUserId, validatePost, async (req, res) => {
   try {
     const result = await insertPost(post);
     return (result === undefined)
-      ? res.status(500).json({ message: `error adding post to user id ${id}`})
+      ? res.status(500).json({ message: `error adding post to user id ${id}` })
       : res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({
@@ -136,7 +136,7 @@ router.get('/:id/posts', validateUserId, async (req, res) => {
     const result = await getUserPosts(id);
 
     return (result === undefined || result.length === 0)
-      ? res.status(404).json({ message: `no posts on user ${id}`})
+      ? res.status(404).json({ message: `no posts on user ${id}` })
       : res.status(200).json(result);
   } catch (error) {
     return res.status(500).json({
