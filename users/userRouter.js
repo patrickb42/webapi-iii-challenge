@@ -49,19 +49,47 @@ var validateUserId = function (req, res, next) { return __awaiter(void 0, void 0
             case 1:
                 result = _a.sent();
                 if (result === undefined)
-                    return [2 /*return*/, res.status(400).send({ message: "invalid user id of " + id })];
+                    return [2 /*return*/, res.status(400).json({ message: "invalid user id of " + id })];
                 req.user = result;
                 next();
-                return [2 /*return*/];
+                return [2 /*return*/, true];
         }
     });
 }); };
-var validateUser = function (req, res, next) {
-};
-var validatePost = function (req, res, next) {
-};
-exports.router.post('/', function (req, res) {
-});
+var validateUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var body;
+    return __generator(this, function (_a) {
+        body = req.body;
+        if (body === undefined || body.name === undefined) {
+            return [2 /*return*/, res.status(400).json({
+                    message: (body === undefined)
+                        ? 'missing post data'
+                        : 'missing required text field',
+                })];
+        }
+        next();
+        return [2 /*return*/, true];
+    });
+}); };
+var validatePost = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        next();
+        return [2 /*return*/, true];
+    });
+}); };
+exports.router.post('/', validateUser, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, userDb_1.insert(req.body)];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, (result === undefined)
+                        ? res.status(500).json({ message: 'error adding user' })
+                        : res.status(200).json(result)];
+        }
+    });
+}); });
 exports.router.post('/:id/posts', function (req, res) {
 });
 exports.router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -71,8 +99,9 @@ exports.router.get('/', function (req, res) { return __awaiter(void 0, void 0, v
             case 0: return [4 /*yield*/, userDb_1.get()];
             case 1:
                 result = _a.sent();
-                res.status(200).json(result);
-                return [2 /*return*/];
+                if (result === undefined)
+                    return [2 /*return*/, res.status(500).json({ message: 'unable to get users' })];
+                return [2 /*return*/, res.status(200).json(result)];
         }
     });
 }); });
