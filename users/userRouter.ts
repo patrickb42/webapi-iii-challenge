@@ -1,13 +1,36 @@
 import * as express from 'express';
 
+import {
+  get,
+  getById,
+  getUserPosts,
+  insert,
+  update,
+  remove,
+} from './userDb';
+
 export const router = express.Router();
 
-const validateUserId = (
-  req: express.Request,
+interface User {
+  id: number,
+  name: string,
+}
+
+interface ValidatedUserIdRequest extends express.Request {
+  user: User,
+}
+
+const validateUserId = async (
+  req: ValidatedUserIdRequest,
   res: express.Response,
   next: express.NextFunction,
 ) => {
+  const { id } = req.params;
 
+  const result = await getById(id);
+  if (result === undefined) return res.status(400).send({ message: `invalid user id of ${id}` });
+  req.user = result;
+  next();
 };
 
 const validateUser = (
@@ -34,12 +57,13 @@ router.post('/:id/posts', (req, res) => {
 
 });
 
-router.get('/', (req, res) => {
-  res.end();
+router.get('/', async (req, res) => {
+  const result = await get();
+  res.status(200).json(result);
 });
 
-router.get('/:id', (req, res) => {
-
+router.get('/:id', validateUserId, (req: ValidatedUserIdRequest, res) => {
+  res.status(200).json(req.user);
 });
 
 router.get('/:id/posts', (req, res) => {
