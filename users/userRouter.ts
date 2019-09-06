@@ -8,6 +8,7 @@ import {
   update,
   remove,
 } from './userDb';
+import { insert as insertPost } from '../posts/postDb';
 
 export const router = express.Router();
 
@@ -89,7 +90,23 @@ router.post('/', validateUser, async (req, res) => {
 });
 
 router.post('/:id/posts', validateUserId, validatePost, async (req, res) => {
+  const { id } = req.params;
+  const post = {
+    user_id: id,
+    text: req.body.text,
+  };
 
+  try {
+    const result = await insertPost(post);
+    return (result === undefined)
+      ? res.status(500).json({ message: `error adding post to user id ${id}`})
+      : res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      error: error.response,
+      message: `error adding post to user id ${id}`,
+    });
+  }
 });
 
 router.get('/', async (req, res) => {
@@ -113,7 +130,20 @@ const getUserById = async (
 router.get('/:id', validateUserId, getUserById);
 
 router.get('/:id/posts', validateUserId, async (req, res) => {
+  const { id } = req.params;
 
+  try {
+    const result = await getUserPosts(id);
+
+    return (result === undefined || result.length === 0)
+      ? res.status(404).json({ message: `no posts on user ${id}`})
+      : res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      error: error.response,
+      message: `error getting posts for user id ${id}`,
+    });
+  }
 });
 
 router.delete('/:id', validateUserId, async (req: ValidatedUserIdRequest, res) => {
