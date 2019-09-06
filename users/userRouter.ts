@@ -113,19 +113,21 @@ const getUserById = async (
 router.get('/:id', validateUserId, getUserById);
 
 router.get('/:id/posts', validateUserId, async (req, res) => {
-  
+
 });
 
 router.delete('/:id', validateUserId, async (req: ValidatedUserIdRequest, res) => {
+  const { id } = req.params;
+
   try {
-    const result = await remove(req.params.id);
+    const result = await remove(id);
     return (result === undefined || result < 1)
-      ? res.status(500).json({ message: `error deleting id ${req.params.id}` })
+      ? res.status(500).json({ message: `error deleting id ${id}` })
       : res.status(200).json(req.user);
   } catch (error) {
     return res.status(500).json({
       error: error.response,
-      message: `error deleting user by id ${req.params.id}`,
+      message: `error deleting user by id ${id}`,
     });
   }
 });
@@ -135,15 +137,17 @@ const putUser = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
+  const { id } = req.params;
+
   try {
-    const result = await update(req.params.id, req.body);
+    const result = await update(id, req.body);
     return (result === undefined || result < 1)
       ? res.status(500).json({ message: 'error updating user' })
       : next();
   } catch (error) {
     return res.status(500).json({
       error: error.response,
-      message: `error updating user by id ${req.params.id}`,
+      message: `error updating user by id ${id}`,
     });
   }
 };

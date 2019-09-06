@@ -13,7 +13,7 @@ const logger = (req: express.Request, res: express.Response, next: express.NextF
 
 server.use(express.json());
 server.use(logger);
-server.use('/users', userRouter);
-server.use('/posts', postRouter);
+server.use('/api/users', userRouter);
+server.use('/api/posts', postRouter);
 
 server.listen(5000, () => console.log('listening on port 5000'));

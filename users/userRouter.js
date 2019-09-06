@@ -152,46 +152,52 @@ exports.router.get('/:id/posts', validateUserId, function (req, res) { return __
     });
 }); });
 exports.router.delete('/:id', validateUserId, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var result, error_4;
+    var id, result, error_4;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userDb_1.remove(req.params.id)];
+                id = req.params.id;
+                _a.label = 1;
             case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, userDb_1.remove(id)];
+            case 2:
                 result = _a.sent();
                 return [2 /*return*/, (result === undefined || result < 1)
-                        ? res.status(500).json({ message: "error deleting id " + req.params.id })
+                        ? res.status(500).json({ message: "error deleting id " + id })
                         : res.status(200).json(req.user)];
-            case 2:
+            case 3:
                 error_4 = _a.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: error_4.response,
-                        message: "error deleting user by id " + req.params.id,
+                        message: "error deleting user by id " + id,
                     })];
-            case 3: return [2 /*return*/];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
 var putUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
-    var result, error_5;
+    var id, result, error_5;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, userDb_1.update(req.params.id, req.body)];
+                id = req.params.id;
+                _a.label = 1;
             case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, userDb_1.update(id, req.body)];
+            case 2:
                 result = _a.sent();
                 return [2 /*return*/, (result === undefined || result < 1)
                         ? res.status(500).json({ message: 'error updating user' })
                         : next()];
-            case 2:
+            case 3:
                 error_5 = _a.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: error_5.response,
-                        message: "error updating user by id " + req.params.id,
+                        message: "error updating user by id " + id,
                     })];
-            case 3: return [2 /*return*/];
+            case 4: return [2 /*return*/];
         }
     });
 }); };

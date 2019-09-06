@@ -11,6 +11,6 @@ var logger = function (req, res, next) {
 };
 server.use(express.json());
 server.use(logger);
-server.use('/users', users_1.userRouter);
-server.use('/posts', posts_1.postRouter);
+server.use('/api/users', users_1.userRouter);
+server.use('/api/posts', posts_1.postRouter);
 server.listen(5000, function () { return console.log('listening on port 5000'); });
