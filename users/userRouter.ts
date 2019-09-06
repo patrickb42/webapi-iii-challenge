@@ -27,9 +27,16 @@ const validateUserId = async (
 ) => {
   const { id } = req.params;
 
-  const result = await getById(id);
-  if (result === undefined) return res.status(400).json({ message: `invalid user id of ${id}` });
-  req.user = result;
+  try {
+    const result = await getById(id);
+    if (result === undefined) return res.status(400).json({ message: `invalid user id of ${id}` });
+    req.user = result;
+  } catch (error) {
+    return res.status(500).json({
+      error: error.response,
+      message: `error getting user by id ${id}`,
+    });
+  }
   return next();
 };
 
@@ -68,10 +75,17 @@ const validatePost = async (
 };
 
 router.post('/', validateUser, async (req, res) => {
-  const result = await insert(req.body);
-  return (result === undefined)
-    ? res.status(500).json({ message: 'error adding user' })
-    : res.status(200).json(result);
+  try {
+    const result = await insert(req.body);
+    return (result === undefined)
+      ? res.status(500).json({ message: 'error adding user' })
+      : res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      error: error.response,
+      message: 'error adding user',
+    });
+  }
 });
 
 router.post('/:id/posts', validateUserId, validatePost, async (req, res) => {
@@ -79,9 +93,16 @@ router.post('/:id/posts', validateUserId, validatePost, async (req, res) => {
 });
 
 router.get('/', async (req, res) => {
-  const result = await get();
-  if (result === undefined) return res.status(500).json({ message: 'unable to get users' });
-  return res.status(200).json(result);
+  try {
+    const result = await get();
+    if (result === undefined) return res.status(500).json({ message: 'unable to get users' });
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(500).json({
+      error: error.response,
+      message: 'error getting users',
+    });
+  }
 });
 
 const getUserById = async (
@@ -92,15 +113,21 @@ const getUserById = async (
 router.get('/:id', validateUserId, getUserById);
 
 router.get('/:id/posts', validateUserId, async (req, res) => {
-
+  
 });
 
 router.delete('/:id', validateUserId, async (req: ValidatedUserIdRequest, res) => {
-  const result = await remove(req.params.id);
-
-  return (result === undefined || result < 1)
-    ? res.status(500).json({ message: `error deleting id ${req.params.id}` })
-    : res.status(200).json(req.user);
+  try {
+    const result = await remove(req.params.id);
+    return (result === undefined || result < 1)
+      ? res.status(500).json({ message: `error deleting id ${req.params.id}` })
+      : res.status(200).json(req.user);
+  } catch (error) {
+    return res.status(500).json({
+      error: error.response,
+      message: `error deleting user by id ${req.params.id}`,
+    });
+  }
 });
 
 const putUser = async (
@@ -108,10 +135,17 @@ const putUser = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  const result = await update(req.params.id, req.body);
-  return (result === undefined || result < 1)
-    ? res.status(500).json({ message: 'error updating user' })
-    : next();
+  try {
+    const result = await update(req.params.id, req.body);
+    return (result === undefined || result < 1)
+      ? res.status(500).json({ message: 'error updating user' })
+      : next();
+  } catch (error) {
+    return res.status(500).json({
+      error: error.response,
+      message: `error updating user by id ${req.params.id}`,
+    });
+  }
 };
 
 router.put('/:id', validateUserId, validateUser, putUser, validateUserId, getUserById);
