@@ -30,8 +30,7 @@ const validateUserId = async (
   const result = await getById(id);
   if (result === undefined) return res.status(400).json({ message: `invalid user id of ${id}` });
   req.user = result;
-  next();
-  return true;
+  return next();
 };
 
 const validateUser = async (
@@ -48,8 +47,7 @@ const validateUser = async (
         : 'missing required text field',
     });
   }
-  next();
-  return true;
+  return next();
 };
 
 const validatePost = async (
@@ -57,8 +55,16 @@ const validatePost = async (
   res: express.Response,
   next: express.NextFunction,
 ) => {
-  next();
-  return true;
+  const { body } = req;
+
+  if (body === undefined || body.text === undefined) {
+    return res.status(400).json({
+      message: (body === undefined)
+        ? 'missing post data'
+        : 'missing required text field',
+    });
+  }
+  return next();
 };
 
 router.post('/', validateUser, async (req, res) => {
@@ -68,7 +74,7 @@ router.post('/', validateUser, async (req, res) => {
     : res.status(200).json(result);
 });
 
-router.post('/:id/posts', (req, res) => {
+router.post('/:id/posts', validateUserId, validatePost, async (req, res) => {
 
 });
 
@@ -78,20 +84,36 @@ router.get('/', async (req, res) => {
   return res.status(200).json(result);
 });
 
-router.get('/:id', validateUserId, (req: ValidatedUserIdRequest, res) => {
-  res.status(200).json(req.user);
-});
+const getUserById = async (
+  req: ValidatedUserIdRequest,
+  res: express.Response,
+) => res.status(200).json(req.user);
 
-router.get('/:id/posts', (req, res) => {
+router.get('/:id', validateUserId, getUserById);
 
-});
-
-router.delete('/:id', (req, res) => {
-
-});
-
-router.put('/:id', (req, res) => {
+router.get('/:id/posts', validateUserId, async (req, res) => {
 
 });
+
+router.delete('/:id', validateUserId, async (req: ValidatedUserIdRequest, res) => {
+  const result = await remove(req.params.id);
+
+  return (result === undefined || result < 1)
+    ? res.status(500).json({ message: `error deleting id ${req.params.id}` })
+    : res.status(200).json(req.user);
+});
+
+const putUser = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction,
+) => {
+  const result = await update(req.params.id, req.body);
+  return (result === undefined || result < 1)
+    ? res.status(500).json({ message: 'error updating user' })
+    : next();
+};
+
+router.put('/:id', validateUserId, validateUser, putUser, validateUserId, getUserById);
 
 export default router;

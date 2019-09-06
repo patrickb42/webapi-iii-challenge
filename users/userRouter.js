@@ -51,8 +51,7 @@ var validateUserId = function (req, res, next) { return __awaiter(void 0, void 0
                 if (result === undefined)
                     return [2 /*return*/, res.status(400).json({ message: "invalid user id of " + id })];
                 req.user = result;
-                next();
-                return [2 /*return*/, true];
+                return [2 /*return*/, next()];
         }
     });
 }); };
@@ -67,14 +66,21 @@ var validateUser = function (req, res, next) { return __awaiter(void 0, void 0, 
                         : 'missing required text field',
                 })];
         }
-        next();
-        return [2 /*return*/, true];
+        return [2 /*return*/, next()];
     });
 }); };
 var validatePost = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var body;
     return __generator(this, function (_a) {
-        next();
-        return [2 /*return*/, true];
+        body = req.body;
+        if (body === undefined || body.text === undefined) {
+            return [2 /*return*/, res.status(400).json({
+                    message: (body === undefined)
+                        ? 'missing post data'
+                        : 'missing required text field',
+                })];
+        }
+        return [2 /*return*/, next()];
     });
 }); };
 exports.router.post('/', validateUser, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
@@ -90,8 +96,11 @@ exports.router.post('/', validateUser, function (req, res) { return __awaiter(vo
         }
     });
 }); });
-exports.router.post('/:id/posts', function (req, res) {
-});
+exports.router.post('/:id/posts', validateUserId, validatePost, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        return [2 /*return*/];
+    });
+}); });
 exports.router.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var result;
     return __generator(this, function (_a) {
@@ -105,13 +114,40 @@ exports.router.get('/', function (req, res) { return __awaiter(void 0, void 0, v
         }
     });
 }); });
-exports.router.get('/:id', validateUserId, function (req, res) {
-    res.status(200).json(req.user);
-});
-exports.router.get('/:id/posts', function (req, res) {
-});
-exports.router.delete('/:id', function (req, res) {
-});
-exports.router.put('/:id', function (req, res) {
-});
+var getUserById = function (req, res) { return __awaiter(void 0, void 0, void 0, function () { return __generator(this, function (_a) {
+    return [2 /*return*/, res.status(200).json(req.user)];
+}); }); };
+exports.router.get('/:id', validateUserId, getUserById);
+exports.router.get('/:id/posts', validateUserId, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    return __generator(this, function (_a) {
+        return [2 /*return*/];
+    });
+}); });
+exports.router.delete('/:id', validateUserId, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+    var result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, userDb_1.remove(req.params.id)];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, (result === undefined || result < 1)
+                        ? res.status(500).json({ message: "error deleting id " + req.params.id })
+                        : res.status(200).json(req.user)];
+        }
+    });
+}); });
+var putUser = function (req, res, next) { return __awaiter(void 0, void 0, void 0, function () {
+    var result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, userDb_1.update(req.params.id, req.body)];
+            case 1:
+                result = _a.sent();
+                return [2 /*return*/, (result === undefined || result < 1)
+                        ? res.status(500).json({ message: 'error updating user' })
+                        : next()];
+        }
+    });
+}); };
+exports.router.put('/:id', validateUserId, validateUser, putUser, validateUserId, getUserById);
 exports.default = exports.router;
