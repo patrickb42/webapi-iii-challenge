@@ -16,4 +16,4 @@ server.use(logger);
 server.use('/api/users', users_1.userRouter);
 server.use('/api/posts', posts_1.postRouter);
 var port = process.env.PORT;
-server.listen(5000, function () { return console.log("listening on port " + port); });
+server.listen(port, function () { return console.log("listening on port " + port); });
