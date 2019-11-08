@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var db = require("../data/dbConfig");
 function get() {
     return db('users');

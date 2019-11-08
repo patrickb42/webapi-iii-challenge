@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var express = require("express");
 exports.router = express.Router();
 // custom middleware
@@ -17,4 +17,4 @@ exports.router = express.Router();
 // });
 // router.put('/:id', (req, res) => {
 // });
-exports.default = exports.router;
+exports["default"] = exports.router;

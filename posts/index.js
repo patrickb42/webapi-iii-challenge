@@ -1,4 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var postRouter_1 = require("./postRouter");
 exports.postRouter = postRouter_1.router;

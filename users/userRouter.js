@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var express = require("express");
 var userDb_1 = require("./userDb");
 var postDb_1 = require("../posts/postDb");
@@ -60,7 +60,7 @@ var validateUserId = function (req, res, next) { return __awaiter(void 0, void 0
                 error_1 = _a.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: error_1.response,
-                        message: "error getting user by id " + id,
+                        message: "error getting user by id " + id
                     })];
             case 4: return [2 /*return*/, next()];
         }
@@ -74,7 +74,7 @@ var validateUser = function (req, res, next) { return __awaiter(void 0, void 0, 
             return [2 /*return*/, res.status(400).json({
                     message: (body === undefined)
                         ? 'missing post data'
-                        : 'missing required text field',
+                        : 'missing required text field'
                 })];
         }
         return [2 /*return*/, next()];
@@ -88,7 +88,7 @@ var validatePost = function (req, res, next) { return __awaiter(void 0, void 0, 
             return [2 /*return*/, res.status(400).json({
                     message: (body === undefined)
                         ? 'missing post data'
-                        : 'missing required text field',
+                        : 'missing required text field'
                 })];
         }
         return [2 /*return*/, next()];
@@ -110,7 +110,7 @@ exports.router.post('/', validateUser, function (req, res) { return __awaiter(vo
                 error_2 = _a.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: error_2.response,
-                        message: 'error adding user',
+                        message: 'error adding user'
                     })];
             case 3: return [2 /*return*/];
         }
@@ -124,7 +124,7 @@ exports.router.post('/:id/posts', validateUserId, validatePost, function (req, r
                 id = req.params.id;
                 post = {
                     user_id: id,
-                    text: req.body.text,
+                    text: req.body.text
                 };
                 _a.label = 1;
             case 1:
@@ -139,7 +139,7 @@ exports.router.post('/:id/posts', validateUserId, validatePost, function (req, r
                 error_3 = _a.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: error_3.response,
-                        message: "error adding post to user id " + id,
+                        message: "error adding post to user id " + id
                     })];
             case 4: return [2 /*return*/];
         }
@@ -161,7 +161,7 @@ exports.router.get('/', function (req, res) { return __awaiter(void 0, void 0, v
                 error_4 = _a.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: error_4.response,
-                        message: 'error getting users',
+                        message: 'error getting users'
                     })];
             case 3: return [2 /*return*/];
         }
@@ -190,13 +190,13 @@ exports.router.get('/:id/posts', validateUserId, function (req, res) { return __
                 error_5 = _a.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: error_5.response,
-                        message: "error getting posts for user id " + id,
+                        message: "error getting posts for user id " + id
                     })];
             case 4: return [2 /*return*/];
         }
     });
 }); });
-exports.router.delete('/:id', validateUserId, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+exports.router["delete"]('/:id', validateUserId, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var id, result, error_6;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -215,7 +215,7 @@ exports.router.delete('/:id', validateUserId, function (req, res) { return __awa
                 error_6 = _a.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: error_6.response,
-                        message: "error deleting user by id " + id,
+                        message: "error deleting user by id " + id
                     })];
             case 4: return [2 /*return*/];
         }
@@ -240,11 +240,11 @@ var putUser = function (req, res, next) { return __awaiter(void 0, void 0, void 
                 error_7 = _a.sent();
                 return [2 /*return*/, res.status(500).json({
                         error: error_7.response,
-                        message: "error updating user by id " + id,
+                        message: "error updating user by id " + id
                     })];
             case 4: return [2 /*return*/];
         }
     });
 }); };
 exports.router.put('/:id', validateUserId, validateUser, putUser, validateUserId, getUserById);
-exports.default = exports.router;
+exports["default"] = exports.router;
