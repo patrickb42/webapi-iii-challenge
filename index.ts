@@ -21,4 +21,4 @@ server.use('/api/posts', postRouter);
 
 const port = process.env.PORT;
 
-server.listen(5000, () => console.log(`listening on port ${port}`));
+server.listen(port, () => console.log(`listening on port ${port}`));
